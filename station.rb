@@ -1,5 +1,6 @@
 class Station
   include InstanceCounter
+  include Valid
   attr_reader :trains, :title
 
   @@stations = []
@@ -23,13 +24,6 @@ class Station
   def delete_train(train)
     puts "Поезд № #{train.number} отправлен со станции #{title}"
     trains.delete_if {|train_go| train_go == train }
-  end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
   end
 
   private

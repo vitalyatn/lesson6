@@ -1,5 +1,6 @@
 class Route
   include InstanceCounter
+  include Valid
   attr_reader :start_station, :end_station
 
   def initialize(start_station, end_station)
@@ -25,16 +26,8 @@ class Route
     [@start_station, @railway_stations, @end_station].flatten
   end
 
-  def valid?
-    validate!
-    true
-  rescue
-    false
-  end
-
   private
-
-   def validate!
-    raise "Заданы несуществующие станции.Повторите ввод" if (start_station.nil? || end_station.nil?)
+  def validate!
+    raise "Заданы несуществующие станции.Повторите ввод" unless start_station || end_station
   end
 end

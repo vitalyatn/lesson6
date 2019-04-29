@@ -1,10 +1,11 @@
 class Train
+  include Valid
   include InstanceCounter
   include Manufacturer
   attr_reader :speed, :wagons, :type, :number
 
   @@trains = {}
-  NUMBER_FORMAT = /^([а-я]|[0-9]){3}-*([a-z]|[0-9]){2}$/i
+  NUMBER_FORMAT = /^([а-я]|[0-9]){3}-?([а-я]|[0-9]){2}$/i
   def self.find(number)
     @@trains[number]
   end
@@ -36,7 +37,6 @@ class Train
   def delete_wagon(wagon)
     if @speed.zero?
       @wagons.delete_if {|wagon_delete| wagon_delete == wagon }
-     # @wagons = @wagons.compact
     else
       puts "Отцепить вагон нельзя! Остановите поезд!"
     end
@@ -68,17 +68,10 @@ class Train
     end
   end
 
-  def valid?
-    validate!
-    true
-  rescue
-    false
-  end
 
+  private
 
-private
-
- def validate!
+  def validate!
     raise "Номер поезда не может быть пустым" if number.empty?
     raise "Неккоректный формат номера поезда" if number !~ NUMBER_FORMAT
   end
